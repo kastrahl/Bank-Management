@@ -2,8 +2,14 @@ package com.codeforinterview;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Login extends JFrame{
+public class Login extends JFrame implements ActionListener {   //actionlistener is responsible for actions which buttons do
+
+    JButton login,Clear,Register;
+    JTextField cardtextfield;
+    JPasswordField pintextfield;        //not visible on screen
 
     Login(){    //constructor
 
@@ -34,8 +40,9 @@ public class Login extends JFrame{
         add(cardno);
 
         //adding text field for card number
-        JTextField cardtextfield = new JTextField();
+        cardtextfield = new JTextField();
         cardtextfield.setBounds(350,200,200,40);
+        cardtextfield.setFont(new Font("Arial",Font.BOLD,14));
         add(cardtextfield);
 
         //Pin number
@@ -43,29 +50,35 @@ public class Login extends JFrame{
         Pin.setFont(new Font("Raleway",Font.BOLD,25));
         Pin.setBounds(150,250,200,40);
         add(Pin);
+
         //adding text field for pin number
-        JTextField pintextfield = new JTextField();
+        pintextfield = new JPasswordField();
         pintextfield.setBounds(350,250,100,40);
         add(pintextfield);
 
         //add buttons
         //sign in
-        JButton login=new JButton("Sign In");
+        login=new JButton("Sign In");
         login.setBounds(350,300,100,40);
         login.setBackground(Color.BLACK);
         login.setForeground(Color.white);
+        login.addActionListener(this);                          //to catch event done by button
         add(login);
+
         //Clear button
-        JButton Clear=new JButton("Clear");
+        Clear=new JButton("Clear");
         Clear.setBounds(500,380,100,40);
         Clear.setBackground(Color.BLACK);
         Clear.setForeground(Color.white);
+        Clear.addActionListener(this);                          //to catch event done by button
         add(Clear);
+
         //Register button
-        JButton Register=new JButton("Register");
+        Register=new JButton("Register");
         Register.setBounds(200,380,100,40);
         Register.setBackground(Color.BLACK);
         Register.setForeground(Color.white);
+        Register.addActionListener(this);
         add(Register);
 
         setTitle("Automated Teller Machine");
@@ -73,12 +86,22 @@ public class Login extends JFrame{
         setVisible(true);
         setLocation(350,200);
 
-
-
     }
+    @Override
+    public void actionPerformed(ActionEvent e) {    //to implement abstract methods of actionlistener interface
+        //need buttons which are locally defined -> globally define them -> declare and remove declaration from within login class
+        if(e.getSource() == Clear) {           //getsource -> what's source whatever action is done
+            cardtextfield.setText("");                                         //need access to text fields which are locally defined in login -> make them global
+            pintextfield.setText("");
+        } else if (e.getSource()==Register) {
+            
+        } else if (e.getSource()==login) {
+
+        }
+    }
+
     public static void main(String[] args) {
         new Login();
         System.out.println("Hello world!");
     }
-
 }
