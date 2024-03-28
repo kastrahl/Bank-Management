@@ -13,6 +13,8 @@ public class signUp extends JFrame implements ActionListener{
     JRadioButton genderinM,genderinF;
     JRadioButtonMenuItem single,married,other;
     JMenu maritalStatusMenu;
+    JButton next;
+
     signUp(){
         setLayout(null);
         //setting up the window, size and bg colour
@@ -148,7 +150,6 @@ public class signUp extends JFrame implements ActionListener{
         address.setForeground(Color.white);
         address.setBounds(100,340,150,20);
         add(address);
-
         //address input textfield
         addressin =new JTextField();
         addressin.setFont(new Font("Raleway", Font.BOLD,15));
@@ -163,7 +164,6 @@ public class signUp extends JFrame implements ActionListener{
         city.setForeground(Color.white);
         city.setBounds(100,380,150,20);
         add(city);
-
         //city input
         cityin =new JTextField();
         cityin.setFont(new Font("Raleway", Font.BOLD,15));
@@ -178,7 +178,6 @@ public class signUp extends JFrame implements ActionListener{
         state.setForeground(Color.white);
         state.setBounds(100,420,150,20);
         add(state);
-
         //state input
         statein =new JTextField();
         statein.setFont(new Font("Raleway", Font.BOLD,15));
@@ -193,7 +192,6 @@ public class signUp extends JFrame implements ActionListener{
         pincode.setForeground(Color.white);
         pincode.setBounds(100,460,150,20);
         add(pincode);
-
         //pincode in
         pincodein =new JTextField();
         pincodein.setFont(new Font("Raleway", Font.BOLD,15));
@@ -202,17 +200,23 @@ public class signUp extends JFrame implements ActionListener{
         pincodein.setBackground(Color.white);
         add(pincodein);
 
-
-
+        //Nextpage button
+        next=new JButton("NEXT");
+        next.setForeground(Color.white);
+        next.setBackground(Color.BLACK);
+        next.setFont(new Font("Raleway",Font.BOLD,15));
+        next.setBounds(300,550,200,30);
+        add(next);
+        
         setVisible(true);
     }
-
-    public static void main(String[] args){
-        new signUp();
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
 
     }
+    public static void main(String[] args){
+        new signUp();
+    }
+
+
 }
