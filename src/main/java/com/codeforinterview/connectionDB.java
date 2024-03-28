@@ -17,8 +17,8 @@ public class connectionDB {         //use this class to create object
             //Class.forName(com.mysql.cj.jdbc.Driver);          -> after adding jar no need to register driver it'll pick from jar itself
 
             //2- connection create
-            c = DriverManager.getConnection("jdbc:mysql://localhost:3306");     //jdbc is driver manager-> mysql db-> url? localhost port 3306
-            c = DriverManager.getConnection("jdbc:mysql:///bankmanagement","root","1234678");     //bydefauly mysql on localhost , directly write database name
+            //c = DriverManager.getConnection("jdbc:mysql://localhost:3306");                                       //jdbc is driver manager-> mysql db-> url? localhost port 3306
+            c = DriverManager.getConnection("jdbc:mysql:///bankmanagement","root","12345678");     //bydefauly mysql on localhost , directly write database name
             //3- create statement
             s =c.createStatement();
 

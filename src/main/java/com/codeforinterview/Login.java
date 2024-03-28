@@ -94,7 +94,8 @@ public class Login extends JFrame implements ActionListener {   //actionlistener
             cardtextfield.setText("");                                         //need access to text fields which are locally defined in login -> make them global
             pintextfield.setText("");
         } else if (e.getSource()==Register) {
-            
+            new signUp().setVisible(true);
+            setVisible(false);                  //close the login frame and open register frame
         } else if (e.getSource()==login) {
 
         }

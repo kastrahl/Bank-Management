@@ -2,12 +2,14 @@ package com.codeforinterview;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
 import java.util.*;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
 public class signUp extends JFrame implements ActionListener{
 
+    long formnumber;
     JTextField namein,fnamein,emailin,addressin,cityin,statein,pincodein;
     JDateChooser dobin;
     JRadioButton genderinM,genderinF;
@@ -27,7 +29,7 @@ public class signUp extends JFrame implements ActionListener{
         //setting up labels
 
         Random ran=new Random();
-        long formnumber = Math.abs(ran.nextLong()%9000L + 1000L);           // SELF EDIT - check if applicationnumber already exists in mysql
+        formnumber = Math.abs(ran.nextLong()%9000L + 1000L);           // SELF EDIT - check if applicationnumber already exists in mysql
         JLabel formnum = new JLabel("Application Form Number : " + formnumber);
         formnum.setFont(new Font("Raleway",Font.BOLD,20));
         formnum.setForeground(Color.white);                                 //set colour
@@ -206,13 +208,79 @@ public class signUp extends JFrame implements ActionListener{
         next.setBackground(Color.BLACK);
         next.setFont(new Font("Raleway",Font.BOLD,15));
         next.setBounds(300,550,200,30);
+        next.addActionListener(this);
         add(next);
         
         setVisible(true);
     }
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent a) {
+        String formnum = "" + formnumber;                                                       //concat will convert long to string
+        String name=namein.getText(),fathername=fnamein.getText(),email=emailin.getText(),address=addressin.getText(),city=cityin.getText(),state=statein.getText(),pin=pincodein.getText();
+                                                                                                //getText -> Jtextfield me se value nikalna | setText se value set to JTextfield
+        //String dob = ((JTextField)dobin.getDateEditor().getUiComponent()).getText();          //->in the tutorial
 
+        String dob = dobin.getDateFormatString();                                               //self edit
+
+        //getting input from radio button
+        String gender = null;
+        if(genderinM.isSelected()){
+            gender="Male";
+        }else if(genderinF.isSelected()){
+            gender="Female";
+        }
+        //getting input from menu items
+        String marital=null;
+        if(single.isSelected()){
+            marital="Single";
+        } else if (married.isSelected()) {
+            marital="Married";
+        } else if (other.isSelected()) {
+            marital="Other";
+        }
+        if(a.getSource()==next){
+
+        }
+        try{
+            if(namein.getText().isEmpty()){                                                             //instead of name.equals("")
+                JOptionPane.showMessageDialog(null,"Name is Required");
+            }else
+            if(fnamein.getText().isEmpty()){
+                JOptionPane.showMessageDialog(null,"Father's name is Required");
+            }else
+            if (dobin.getDate() == null) {
+                JOptionPane.showMessageDialog(null, "Date of Birth is Required");
+            }else
+            if(!genderinM.isSelected()&&!genderinF.isSelected()){
+                JOptionPane.showMessageDialog(null,"Please Select Gender");
+            }else
+            if(emailin.getText().isEmpty()){
+                JOptionPane.showMessageDialog(null,"Email ID is Required");
+            }else
+            if(!single.isSelected()&&!married.isSelected()&&!other.isSelected()){
+                JOptionPane.showMessageDialog(null,"Please Select marital Status");
+            }else
+            if(addressin.getText().isEmpty()){
+                JOptionPane.showMessageDialog(null,"Address is Required");
+            }else
+            if(cityin.getText().isEmpty()){
+                JOptionPane.showMessageDialog(null,"City is Required");
+            }else
+            if(statein.getText().isEmpty()){
+                JOptionPane.showMessageDialog(null,"State is Required");
+            }else
+            if(pincodein.getText().isEmpty()){
+                JOptionPane.showMessageDialog(null,"Pincode is Required");
+            }else {
+                connectionDB c=new connectionDB();
+                String query = "INSERT INTO signup VALUES('"+formnum+"','"+name+"','"+fathername+"','"+dob+"','"+gender+"','"+email+"','"+marital+"','"+address+"','"+city+"','"+pin+"','"+state+"')";
+                c.s.executeUpdate(query);                           //this will run the above query in MySQL
+
+            }
+// "abcd'"+variable+"'abcd"   this is how we put variable in between string
+        }catch (Exception e){
+
+        }
     }
     public static void main(String[] args){
         new signUp();
