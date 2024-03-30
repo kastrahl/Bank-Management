@@ -20,14 +20,13 @@ public class signUp extends JFrame implements ActionListener{
     signUp(){
         setLayout(null);
         //setting up the window, size and bg colour
-        setTitle("Welcome New User to Registration");
+        setTitle("New Application Registration Form - Page 1");
         setSize(800,800);
         //setVisible(true);        //check stackoverflow ;- https://stackoverflow.com/questions/47609833/jcomponents-only-appear-after-resizing
         setLocation(350,50);
-        getContentPane().setBackground(Color.BLUE);
+        getContentPane().setBackground(constants.backGroundColor);
 
         //setting up labels
-
         Random ran=new Random();
         formnumber = Math.abs(ran.nextLong()%9000L + 1000L);           // SELF EDIT - check if applicationnumber already exists in mysql
         JLabel formnum = new JLabel("Application Form Number : " + formnumber);
@@ -38,9 +37,9 @@ public class signUp extends JFrame implements ActionListener{
 
         //label for page number 1
         JLabel persondetails = new JLabel("Page 1 : Personal Details" );
-        persondetails.setFont(new Font("Raleway",Font.BOLD,10));
+        persondetails.setFont(new Font("Raleway",Font.BOLD,15));
         persondetails.setForeground(Color.white);                                 //set colour
-        persondetails.setBounds(230,60,400,10);               //only works when setlayout is null
+        persondetails.setBounds(230,60,400,15);               //only works when setlayout is null
         add(persondetails);
 
         //name label
@@ -218,8 +217,8 @@ public class signUp extends JFrame implements ActionListener{
         String formnum = "" + formnumber;                                                       //concat will convert long to string
         String name=namein.getText(),fathername=fnamein.getText(),email=emailin.getText(),address=addressin.getText(),city=cityin.getText(),state=statein.getText(),pin=pincodein.getText();
                                                                                                 //getText -> Jtextfield me se value nikalna | setText se value set to JTextfield
-        //String dob = ((JTextField)dobin.getDateEditor().getUiComponent()).getText();          //->in the tutorial
 
+        //String dob = ((JTextField)dobin.getDateEditor().getUiComponent()).getText();          //->in the tutorial
         String dob = dobin.getDateFormatString();                                               //self edit
 
         //getting input from radio button
@@ -229,6 +228,7 @@ public class signUp extends JFrame implements ActionListener{
         }else if(genderinF.isSelected()){
             gender="Female";
         }
+
         //getting input from menu items
         String marital=null;
         if(single.isSelected()){
@@ -239,7 +239,8 @@ public class signUp extends JFrame implements ActionListener{
             marital="Other";
         }
         if(a.getSource()==next){
-
+            new signUpTwo().setVisible(true);
+            setVisible(false);
         }
         try{
             if(namein.getText().isEmpty()){                                                             //instead of name.equals("")
