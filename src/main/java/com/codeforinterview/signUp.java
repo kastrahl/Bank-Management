@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.*;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
@@ -21,7 +22,7 @@ public class signUp extends JFrame implements ActionListener{
         setLayout(null);
         //setting up the window, size and bg colour
         setTitle("New Application Registration Form - Page 1");
-        setSize(800,800);
+        setSize(650,800);
         //setVisible(true);        //check stackoverflow ;- https://stackoverflow.com/questions/47609833/jcomponents-only-appear-after-resizing
         setLocation(350,50);
         getContentPane().setBackground(constants.backGroundColor);
@@ -29,6 +30,8 @@ public class signUp extends JFrame implements ActionListener{
         //setting up labels
         Random ran=new Random();
         formnumber = Math.abs(ran.nextLong()%9000L + 1000L);           // SELF EDIT - check if applicationnumber already exists in mysql
+
+        formnumber =  generateUnqiueFormNumber();
         JLabel formnum = new JLabel("Application Form Number : " + formnumber);
         formnum.setFont(new Font("Raleway",Font.BOLD,20));
         formnum.setForeground(Color.white);                                 //set colour
@@ -212,14 +215,40 @@ public class signUp extends JFrame implements ActionListener{
         
         setVisible(true);
     }
+
+    private long generateUnqiueFormNumber() {
+        long formNumber;
+        Random ran = new Random();
+        boolean isUnique = false;
+        do{
+            // Generate a random form number
+            formNumber = Math.abs(ran.nextLong() % 9000L + 1000L);
+            // Check if the form number already exists in the database
+            String query = "SELECT COUNT(*) FROM signup WHERE formno = " + formNumber;
+            try (connectionDB c = new connectionDB()) {
+                ResultSet rs = c.s.executeQuery(query);
+                if (rs.next()) {
+                    int count = rs.getInt(1);
+                    if (count == 0) {
+                        // The form number is unique
+                        isUnique = true;
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }while(!isUnique);
+        return formNumber;
+    }
+
     @Override
     public void actionPerformed(ActionEvent a) {
         String formnum = "" + formnumber;                                                       //concat will convert long to string
         String name=namein.getText(),fathername=fnamein.getText(),email=emailin.getText(),address=addressin.getText(),city=cityin.getText(),state=statein.getText(),pin=pincodein.getText();
                                                                                                 //getText -> Jtextfield me se value nikalna | setText se value set to JTextfield
 
-        //String dob = ((JTextField)dobin.getDateEditor().getUiComponent()).getText();          //->in the tutorial
-        String dob = dobin.getDateFormatString();                                               //self edit
+        String dob = ((JTextField)dobin.getDateEditor().getUiComponent()).getText();          //->in the tutorial
+        //String dob = dobin.getDateFormatString();                                               //self edit
 
         //getting input from radio button
         String gender = null;
@@ -238,10 +267,7 @@ public class signUp extends JFrame implements ActionListener{
         } else if (other.isSelected()) {
             marital="Other";
         }
-        if(a.getSource()==next){
-            new signUpTwo().setVisible(true);
-            setVisible(false);
-        }
+
         try{
             if(namein.getText().isEmpty()){                                                             //instead of name.equals("")
                 JOptionPane.showMessageDialog(null,"Name is Required");
@@ -277,10 +303,12 @@ public class signUp extends JFrame implements ActionListener{
                 String query = "INSERT INTO signup VALUES('"+formnum+"','"+name+"','"+fathername+"','"+dob+"','"+gender+"','"+email+"','"+marital+"','"+address+"','"+city+"','"+pin+"','"+state+"')";
                 c.s.executeUpdate(query);                           //this will run the above query in MySQL
 
+                new signUpTwo(formnum).setVisible(true);
+                setVisible(false);
             }
 // "abcd'"+variable+"'abcd"   this is how we put variable in between string
         }catch (Exception e){
-
+            System.out.println(e);
         }
     }
     public static void main(String[] args){
