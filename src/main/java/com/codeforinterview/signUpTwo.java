@@ -219,8 +219,6 @@ public class signUpTwo extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null,"Please complete the form");
             return false;
         }
-//
-
         // If all fields are filled correctly, return true
         return true;
     }
@@ -261,7 +259,7 @@ public class signUpTwo extends JFrame implements ActionListener {
                String query="insert into signuptwo values('"+formnum+"', '"+religion+"', '"+scategory+"', '"+income+"', '"+seducation+"', '"+soccupation+"', '"+pan+"', '"+aadhar+"', '"+seniorcitizen+"', '"+existingaccount+"')";
                System.out.println(query);
                c.s.executeUpdate(query);
-               new Login().setVisible(true);
+               new signupThree(formnum).setVisible(true);
                setVisible(false);
                //SignUp ka object taki vo khule
            }catch (Exception e){
