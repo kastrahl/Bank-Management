@@ -19,6 +19,8 @@ public class signupThree extends JFrame implements ActionListener {
         setSize(650,800);
         setLocation(350,50);
         setTitle("Page 3");
+        getContentPane().setBackground(constants.backGroundColor);
+
 
         //set title
         JLabel title = new JLabel("Page 3 : Account Details");
@@ -182,7 +184,7 @@ public class signupThree extends JFrame implements ActionListener {
             String query = "select count(*) from signupthree WHERE cardNumber = "+cardNumber;
             boolean isUnique = false;
             do{
-                cardNumber = Math.abs(random.nextLong()%90000000L) + 504050400000000L;     //initial numbers will be 50405040
+                cardNumber = Math.abs(random.nextLong()%90000000L + 504050400000000L);     //initial numbers will be 50405040
                 ResultSet re = c.s.executeQuery(query);
                 if(re.next()) {
                     int count = re.getInt(1);
@@ -243,10 +245,14 @@ public class signupThree extends JFrame implements ActionListener {
 
             if(validateFields()){
                 try (connectionDB c = new connectionDB()) {
-                    String query = "insert into signupthree values('"+formnum+"', '"+accountType+"', '"+cardNumber+"', '"+pinNumber+"', '"+facility+"')";
-                    int rowsAffected = c.s.executeUpdate(query);
-                    if (rowsAffected > 0) {
+                    String query1 = "insert into signupthree values('"+formnum+"', '"+accountType+"', '"+cardNumber+"', '"+pinNumber+"', '"+facility+"')";
+                    String query2 = "insert into login values('"+formnum+"', '"+cardNumber+"', '"+pinNumber+"')";
+                    int rowsAffected1 = c.s.executeUpdate(query1);
+                    int rowsAffected2 = c.s.executeUpdate(query2);
+                    if (rowsAffected1 > 0 && rowsAffected2 > 0) {
                         JOptionPane.showMessageDialog(null,"Account created successfully\n Card Number : " + cardNumber+"\n PIN : "+pinNumber);
+                        new Login().setVisible(true);
+                        dispose();
                     } else {
                         JOptionPane.showMessageDialog(null,"Failed to create account.Please try again");
                         new signupThree(formnum);
