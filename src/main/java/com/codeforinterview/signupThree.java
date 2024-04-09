@@ -204,7 +204,7 @@ public class signupThree extends JFrame implements ActionListener {
 
         if(a.getSource()==cancel){
             new signupThree(formnum);
-            dispose();
+            this.dispose();
         } else if (a.getSource()==submit) {
             String accountType=null;
             if(r1.isSelected()){
@@ -245,6 +245,7 @@ public class signupThree extends JFrame implements ActionListener {
 
             if(validateFields()){
                 try (connectionDB c = new connectionDB()) {
+
                     String query1 = "insert into signupthree values('"+formnum+"', '"+accountType+"', '"+cardNumber+"', '"+pinNumber+"', '"+facility+"')";
                     String query2 = "insert into login values('"+formnum+"', '"+cardNumber+"', '"+pinNumber+"')";
                     int rowsAffected1 = c.s.executeUpdate(query1);
@@ -258,6 +259,16 @@ public class signupThree extends JFrame implements ActionListener {
                         new signupThree(formnum);
                         dispose();
                     }
+                    String tablename="bank_"+cardNumber;
+                    String sqlcreatetable="CREATE TABLE IF NOT EXISTS " +tablename+ " ("
+                            + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                            + "cardNumber VARCHAR(25),"
+                            + "date VARCHAR(30),"
+                            + "type VARCHAR(20),"
+                            + "amount VARCHAR(30),"
+                            + "balance VARCHAR(30)"
+                            + ")";
+                    c.s.executeUpdate(sqlcreatetable);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

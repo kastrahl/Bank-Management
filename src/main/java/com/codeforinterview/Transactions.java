@@ -8,9 +8,11 @@ import java.awt.event.ActionListener;
 public class Transactions extends JFrame implements ActionListener {
 
     JButton deposit,balanceEnquiry,exit,miniStatement, withdrawal,pinChange,fast;
-    String pinNumber;
-    Transactions(String pinNumber){
-        //this.formnum=formNumber;
+    String cardNumber,pinNumber;
+    Transactions(String cardNumber,String pinNumber){
+        this.cardNumber=cardNumber;
+        this.pinNumber=pinNumber;
+
         setLayout(null);
 
         //atm image
@@ -76,9 +78,7 @@ public class Transactions extends JFrame implements ActionListener {
         setUndecorated(true);   // doesn't displays frame box
         setVisible(true);
     }
-    public static void main(String[] args) {
-        new Transactions("123123");
-    }
+
 
     @Override
     public void actionPerformed(ActionEvent a) {
@@ -87,7 +87,8 @@ public class Transactions extends JFrame implements ActionListener {
             this.dispose();
         }
         if(a.getSource()==deposit){
-
+            new Deposit(cardNumber ,pinNumber).setVisible(true);
+            this.setVisible(false);
         }
         if(a.getSource()==miniStatement){
 
@@ -99,10 +100,15 @@ public class Transactions extends JFrame implements ActionListener {
 
         }
         if(a.getSource()==withdrawal){
-
+            new withdrawal(cardNumber,pinNumber).setVisible(true);
+            this.setVisible(false);
         }
         if(a.getSource()==balanceEnquiry){
 
         }
+    }
+
+    public static void main(String[] args) {
+        new Transactions("123123","1234");
     }
 }
