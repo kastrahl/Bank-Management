@@ -17,7 +17,7 @@ public class withdrawal extends JFrame implements ActionListener {
         setLayout(null);
         setSize(800,800);
         setLocation(350,20);
-        setTitle("Deposit");
+        setTitle("Withdraw");
         //atm image
         ImageIcon i1=new ImageIcon(ClassLoader.getSystemResource("atm.jpg"));
         Image i2=i1.getImage().getScaledInstance(900,900, Image.SCALE_DEFAULT);
@@ -76,7 +76,7 @@ public class withdrawal extends JFrame implements ActionListener {
                 try(connectionDB c = new connectionDB()){
                     //String query = "insert into bank values('"+ pin +"','"+date.toString()+"','Deposit','"+amount.getText()+"')";
                     String tableName = "bank_"+card;
-                    System.out.println(tableName);
+                    //System.out.println(tableName);
                     String query = "Select balance from "+tableName+" ORDER BY id DESC LIMIT 1";
                     ResultSet rs=c.s.executeQuery(query);
                     String balance = null;

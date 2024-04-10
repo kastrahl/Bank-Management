@@ -91,24 +91,28 @@ public class Transactions extends JFrame implements ActionListener {
             this.setVisible(false);
         }
         if(a.getSource()==miniStatement){
-
+            new miniStatement(cardNumber,pinNumber).setVisible(true);
+            this.setVisible(false);
         }
         if(a.getSource()==pinChange){
-
+            new pinChange(cardNumber, pinNumber).setVisible(true);
+            this.setVisible(false);
         }
         if(a.getSource()==fast){
-
+            new fastCash(cardNumber,pinNumber).setVisible(true);
+            this.setVisible(false);
         }
         if(a.getSource()==withdrawal){
             new withdrawal(cardNumber,pinNumber).setVisible(true);
             this.setVisible(false);
         }
         if(a.getSource()==balanceEnquiry){
-
+            new balanceEnquiry(cardNumber,pinNumber).setVisible(true);
+            this.setVisible(false);
         }
     }
 
     public static void main(String[] args) {
-        new Transactions("123123","1234");
+        new Transactions("504050446240243","4729");
     }
 }

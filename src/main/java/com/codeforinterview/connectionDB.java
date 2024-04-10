@@ -1,5 +1,6 @@
 package com.codeforinterview;
 import java.sql.*;
+
 public class connectionDB implements AutoCloseable {         //use this class to create object
 
     //1 - register driver
@@ -27,7 +28,9 @@ public class connectionDB implements AutoCloseable {         //use this class to
         }
 
     }
-
+    public PreparedStatement prepareStatement(String sql) throws SQLException {
+        return c.prepareStatement(sql);
+    }
     @Override
     public void close() throws Exception {
         if (s != null) {
@@ -37,4 +40,6 @@ public class connectionDB implements AutoCloseable {         //use this class to
             c.close();
         }
     }
+
+
 }
